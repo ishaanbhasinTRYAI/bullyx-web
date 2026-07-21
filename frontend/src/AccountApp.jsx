@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAuth } from './AuthContext'
 import * as api from './lib/supabase'
 import AskWorkspace, { AgentsWorkspace, KnowledgeWorkspace } from './AskWorkspace'
-import './AccountApp.css'
 
 function navigate(path, replace = false) {
   window.history[replace ? 'replaceState' : 'pushState']({}, '', path)
@@ -10,7 +9,7 @@ function navigate(path, replace = false) {
   window.scrollTo(0, 0)
 }
 
-function Logo() { return <a className="acct-logo" href="/" onClick={(event) => { event.preventDefault(); navigate('/') }}><img src="/bullyx-logo-light.png" alt="Bullyx" /></a> }
+function Logo() { return <a className="acct-logo" href="/" onClick={(event) => { event.preventDefault(); navigate('/') }}><img src="/bullyx-logo-engineering.png" alt="Bullyx" /></a> }
 function Arrow() { return <span aria-hidden="true">→</span> }
 
 function Field({ label, hint, ...props }) {
@@ -18,7 +17,7 @@ function Field({ label, hint, ...props }) {
 }
 
 function AuthLayout({ children, eyebrow, title, copy }) {
-  return <div className="auth-page"><section className="auth-brand"><Logo /><div><p className="acct-eyebrow">CONTROLLED OPERATIONS</p><h1>Trust starts with knowing <em>who is in control.</em></h1><p>Bullyx gives teams a secure home for agent identities, policy approvals, and payment operations.</p></div><small>Every consequential action stays attributable.</small></section><main className="auth-panel"><div className="auth-card"><p className="acct-eyebrow">{eyebrow}</p><h2>{title}</h2><p className="auth-copy">{copy}</p>{children}</div></main></div>
+  return <div className="auth-page"><section className="auth-brand"><Logo /><div><p className="acct-eyebrow">ROBOTICS COMPANY BRAIN</p><h1>Your company should remember <em>everything it learns.</em></h1><p>Bullyx connects robot behavior, engineering knowledge, and field experience in one source-linked operating memory.</p></div><small>Every answer stays connected to its evidence.</small></section><main className="auth-panel"><div className="auth-card"><p className="acct-eyebrow">{eyebrow}</p><h2>{title}</h2><p className="auth-copy">{copy}</p>{children}</div></main></div>
 }
 
 function ConfigurationNotice() {
@@ -45,7 +44,7 @@ function Login({ mode = 'login' }) {
     } catch (err) { setError(err.message) } finally { setBusy(false) }
   }
 
-  return <AuthLayout eyebrow={signingUp ? 'CREATE YOUR ACCOUNT' : 'WELCOME BACK'} title={signingUp ? 'Join your operations workspace.' : 'Sign in to Bullyx.'} copy={signingUp ? 'Start with your work email. We’ll help you connect to your organization next.' : 'Access your dashboard, organization requests, and account settings.'}>
+  return <AuthLayout eyebrow={signingUp ? 'CREATE YOUR ACCOUNT' : 'WELCOME BACK'} title={signingUp ? 'Join your robotics workspace.' : 'Sign in to Bullyx.'} copy={signingUp ? 'Start with your work email. We’ll help you connect to your company brain next.' : 'Access Ask, your knowledge index, grounded assignments, and team settings.'}>
     {message ? <div className="acct-success"><b>Email sent</b><p>{message}</p><button className="acct-button" onClick={() => navigate('/login')}>Go to sign in <Arrow /></button></div> : <form className="acct-form" onSubmit={submit}>
       <Field label="Email address" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
       <Field label="Password" type="password" minLength="8" autoComplete={signingUp ? 'new-password' : 'current-password'} value={password} onChange={(e) => setPassword(e.target.value)} hint={signingUp ? 'Use at least 8 characters.' : null} required />
@@ -100,12 +99,12 @@ function Dashboard() {
   async function join(event) { event.preventDefault(); setError(''); try { await api.requestToJoin(token, user.id, joinId); setJoinId(''); setMessage('Request sent to the organization owner.'); await load() } catch (err) { setError(err.message) } }
   async function create(event) { event.preventDefault(); setError(''); try { await api.createOrganization(token, user.id, newName.trim()); setNewName(''); setMessage('Organization created. You are its owner.'); await load() } catch (err) { setError(err.message) } }
   async function decide(item, status) { try { await api.decideJoinRequest(token, item, status); setMessage(status === 'approved' ? 'Member approved.' : 'Request declined.'); await load() } catch (err) { setError(err.message) } }
-  return <AppShell title="Organizations" eyebrow={`GOOD ${new Date().getHours() < 12 ? 'MORNING' : new Date().getHours() < 18 ? 'AFTERNOON' : 'EVENING'}, ${(profile?.full_name || '').split(' ')[0].toUpperCase()}`}><section className="dashboard-intro"><div><h2>Your control center.</h2><p>Manage the teams you belong to and review access requests for organizations you own.</p></div><span className="status-pill"><i /> Account active</span></section>{message && <div className="inline-message">{message}<button onClick={() => setMessage('')} aria-label="Dismiss">×</button></div>}{error && <p className="acct-error">{error}</p>}
-    <div className="dashboard-grid"><section className="dash-card organizations-card"><div className="dash-heading"><div><p className="acct-eyebrow">YOUR WORKSPACES</p><h3>Organizations</h3></div><span>{memberships.length}</span></div>{memberships.length ? <div className="org-list">{memberships.map((item) => <article key={item.id}><div className="org-mark">{item.organization.name[0]}</div><div><b>{item.organization.name}</b><small>{item.role === 'owner' ? 'Owner' : 'Member'} · joined {new Date(item.created_at).toLocaleDateString()}</small></div><em>{item.role}</em></article>)}</div> : <div className="empty-state"><span>01</span><h4>No organization yet</h4><p>Join an existing team or create a new Bullyx workspace below.</p></div>}</section>
+  return <AppShell title="Organizations" eyebrow={`GOOD ${new Date().getHours() < 12 ? 'MORNING' : new Date().getHours() < 18 ? 'AFTERNOON' : 'EVENING'}, ${(profile?.full_name || '').split(' ')[0].toUpperCase()}`}><section className="dashboard-intro"><div><h2>Your robotics workspaces.</h2><p>Manage the companies you belong to and keep each organization’s robot data, engineering knowledge, and conversations isolated.</p></div><span className="status-pill"><i /> Account active</span></section>{message && <div className="inline-message">{message}<button onClick={() => setMessage('')} aria-label="Dismiss">×</button></div>}{error && <p className="acct-error">{error}</p>}
+    <div className="dashboard-grid"><section className="dash-card organizations-card"><div className="dash-heading"><div><p className="acct-eyebrow">YOUR WORKSPACES</p><h3>Robotics companies</h3></div><span>{memberships.length}</span></div>{memberships.length ? <div className="org-list">{memberships.map((item) => <article key={item.id}><div className="org-mark">{item.organization.name[0]}</div><div><b>{item.organization.name}</b><small>{item.role === 'owner' ? 'Owner' : 'Member'} · joined {new Date(item.created_at).toLocaleDateString()}</small></div><em>{item.role}</em></article>)}</div> : <div className="empty-state"><span>01</span><h4>No robotics workspace yet</h4><p>Join an existing company or create a new Bullyx company brain below.</p></div>}</section>
       <section className="dash-card notifications-card"><div className="dash-heading"><div><p className="acct-eyebrow">ORGANIZATION NOTIFICATIONS</p><h3>Requests to review</h3></div><span>{incoming.length}</span></div>{incoming.length ? <div className="request-list">{incoming.map((item) => <article key={item.id}><Avatar profile={item.profile} user={{ email: item.profile?.email }} /><div><b>{item.profile?.full_name || item.profile?.email}</b><small>wants to join {item.organization.name}</small></div><div><button onClick={() => decide(item, 'rejected')}>Decline</button><button className="approve" onClick={() => decide(item, 'approved')}>Approve</button></div></article>)}</div> : <div className="empty-state compact"><span>✓</span><h4>You’re all caught up</h4><p>New membership requests will appear here.</p></div>}</section>
     </div>
     <div className="dashboard-grid actions-grid"><section className="dash-card"><p className="acct-eyebrow">JOIN A TEAM</p><h3>Request organization access</h3><p className="card-copy">An owner will review your request before access is granted.</p><form className="inline-form" onSubmit={join}><select value={joinId} onChange={(e) => setJoinId(e.target.value)} required><option value="">Select an organization</option>{available.map((org) => <option key={org.id} value={org.id}>{org.name}</option>)}</select><button disabled={!available.length}>Request access</button></form>{myRequests.filter((item) => item.status === 'pending').map((item) => <p className="pending-request" key={item.id}>Pending · {item.organization.name}</p>)}</section>
-      <section className="dash-card"><p className="acct-eyebrow">START A WORKSPACE</p><h3>Create an organization</h3><p className="card-copy">You’ll become the owner and can approve future members.</p><form className="inline-form" onSubmit={create}><input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Organization name" required minLength="2" maxLength="80" /><button>Create organization</button></form></section></div>
+      <section className="dash-card"><p className="acct-eyebrow">START A COMPANY BRAIN</p><h3>Create a robotics workspace</h3><p className="card-copy">You’ll become the owner and can connect knowledge sources and approve future members.</p><form className="inline-form" onSubmit={create}><input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="Robotics company name" required minLength="2" maxLength="80" /><button>Create workspace</button></form></section></div>
   </AppShell>
 }
 
