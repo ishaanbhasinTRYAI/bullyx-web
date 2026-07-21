@@ -1,10 +1,12 @@
+"use client"
+
 import { useEffect, useState } from 'react'
 import MarketingSite from './MarketingSite'
 import { AuthProvider, useAuth } from './AuthContext'
 import AccountApp from './AccountApp'
 
-function Router() {
-  const [path, setPath] = useState(window.location.pathname)
+function Router({ initialPath }) {
+  const [path, setPath] = useState(initialPath)
   const { user, profile, loading } = useAuth()
 
   useEffect(() => {
@@ -24,6 +26,6 @@ function Router() {
   return <AccountApp path={path} />
 }
 
-export default function App() {
-  return <AuthProvider><Router /></AuthProvider>
+export default function App({ initialPath = '/' }) {
+  return <AuthProvider><Router initialPath={initialPath} /></AuthProvider>
 }

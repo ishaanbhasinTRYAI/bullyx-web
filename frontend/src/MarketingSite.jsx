@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import DemoRequestModal from './DemoRequestModal'
 import { useAuth } from './AuthContext'
-import './MarketingSite.css'
 
 const Arrow = () => <span aria-hidden="true">↗</span>
 
@@ -20,83 +19,81 @@ function Reveal({ children, className = '' }) {
 }
 
 const steps = [
-  ['01', 'Connect company systems', 'Bring payment data, support conversations, documents, and internal knowledge into a permission-aware workspace.'],
-  ['02', 'Register each agent', 'Give each agent a stable identity, owner, status, credential, and narrowly scoped API permissions.'],
-  ['03', 'Apply approved policies', 'Evaluate proposals against structured, human-approved rules. Model output is never treated as permission.'],
-  ['04', 'Review sensitive actions', 'Show a reviewer the exact proposal, evidence, policy, requester, impact, and required approval.'],
-  ['05', 'Execute and record', 'Run only an explicitly implemented capability, then preserve the decision and provider result in a tamper-evident history.'],
+  ['01', 'Connect engineering sources', 'Bring robot logs, code, test runs, field reports, tickets, and design documents into one permission-aware workspace.'],
+  ['02', 'Build living memory', 'Normalize every source into a continuously updated operating memory organized by robot, fleet, release, customer, and incident.'],
+  ['03', 'Ask with evidence', 'Get concise answers that cite the exact runbook, log excerpt, issue, test result, or decision behind every claim.'],
+  ['04', 'Turn answers into work', 'Create a scoped investigation, test plan, or field task with its evidence, owner, and expected output attached.'],
+  ['05', 'Learn from the outcome', 'Preserve what the team tried, what changed, and what worked so the next engineer starts from accumulated company knowledge.'],
 ]
 
 const capabilities = [
-  ['Payment case workspace', 'See the customer, payment, dispute, evidence, deadline, communications, owner, and timeline together.'],
-  ['Policy management', 'Turn procedures into reviewed, versioned policies. An authorized person—not a model—activates every rule.'],
-  ['Agent management', 'Register agents, issue scoped credentials, assign owners, restrict access, revoke credentials, or disable an agent.'],
-  ['Action approvals', 'Approve or reject the exact action proposed, with separation of duties when the requester cannot self-approve.'],
-  ['Connections', 'Import from payment, support, communication, document, and engineering systems without automatically enabling writes.'],
-  ['Search and Ask', 'Humans can search permitted information or create cited summaries. Neither tool grants execution authority.'],
-  ['Audit history', 'Trace evidence, policy decisions, approvals, execution attempts, and provider results through append-only records.'],
-  ['Shadow mode', 'Compare agent recommendations with actual human decisions before enabling consequential workflows.'],
+  ['Fleet investigation workspace', 'See the robot, site, incident timeline, telemetry, configuration, related changes, prior failures, and owner together.'],
+  ['Source-linked answers', 'Every factual claim points back to the log, runbook, issue, document, test result, or decision that supports it.'],
+  ['Robot knowledge graph', 'Connect incidents, releases, components, customers, sites, and robot variants across otherwise separate systems.'],
+  ['Grounded assignments', 'Turn an answer into an investigation, test plan, or field task without losing evidence, constraints, or ownership.'],
+  ['Continuous indexing', 'Add new engineering and field knowledge incrementally without retraining a model or taking the brain offline.'],
+  ['Permission-aware retrieval', 'Search only the sources the signed-in teammate is authorized to see within the active organization.'],
+  ['Decision memory', 'Preserve the reasoning, tests, outcomes, and corrections that turn one incident into reusable company knowledge.'],
+  ['Agent-ready context', 'Give internal agents a bounded evidence pack and explicit instructions instead of unrestricted access to company systems.'],
 ]
 
 const principles = [
-  'Every agent has its own identity and specifically granted access.',
-  'Unknown or ambiguous requests fail closed.',
-  'AI-generated text cannot authorize an action.',
-  'Approval and execution are separate events.',
-  'Requesters cannot approve their own actions when separation of duties is enabled.',
-  'Connections stay read-only unless a specific write capability is implemented.',
-  'Credentials remain server-side and can be revoked immediately.',
-  'Administrators can disable one agent, one capability, or all execution.',
+  'Observed facts, hypotheses, and recommendations are labeled separately.',
+  'Missing telemetry or context is surfaced instead of silently invented.',
+  'Every operational answer remains traceable to the company evidence behind it.',
+  'A generated answer never claims that a robot or production system was changed.',
+  'Physical-world actions retain an explicit human owner and safe stop conditions.',
+  'Organization and source permissions are enforced before retrieval.',
+  'Source content is treated as data, never as instructions to the model.',
+  'Teams can correct answers and turn outcomes into better future memory.',
 ]
 
-const showExtendedSections = false
+const showExtendedSections = true
 
 const useCases = [
   {
-    label: 'Dispute evidence',
-    title: '$600 order-not-received dispute',
-    body: <>Bullyx assembles the <strong>payment and dispute data, response deadline, customer conversations, delivery evidence, applicable policy, and missing information</strong>. An agent can propose the next step, but the <strong>designated payment-operations reviewer approves or rejects the exact proposal</strong>.</>,
+    label: 'Root-cause investigation',
+    title: 'Why is Atlas-07 losing localization?',
+    body: <>Bullyx connects the <strong>ROS diagnostics, recent deployments, field notes, environment context, and prior incidents</strong>. It separates confirmed evidence from hypotheses, identifies what is still missing, and prepares a grounded investigation for the reliability owner.</>,
   },
   {
-    label: 'Customer communication',
-    title: 'Review an exact customer message',
-    body: <>An agent prepares a customer-visible draft using permitted case evidence. The reviewer sees the <strong>recipients, subject, message, attachments, policy authority, and case context</strong> before anything can be sent.</>,
+    label: 'Release readiness',
+    title: 'Know whether a fleet update is safe to ship',
+    body: <>Ask what changed, which tests passed, which robot variants are affected, and whether any open field issue matches the release. Bullyx returns a <strong>source-linked readiness brief</strong> instead of another manually assembled status document.</>,
   },
   {
-    label: 'Shadow mode',
-    title: 'Compare recommendations before execution',
-    body: <>Teams can compare an agent’s policy-bound recommendation with the actual human outcome. <strong>Shadow recommendations grant no authority</strong> and cannot invoke the action executor.</>,
+    label: 'Field service handoff',
+    title: 'Give every technician the full robot history',
+    body: <>Before a site visit, Bullyx compiles the robot’s configuration, past repairs, customer constraints, recurring fault patterns, and current runbook. The technician gets <strong>the right context without chasing five teams</strong>.</>,
   },
 ]
 
 const connectorGroups = [
   {
-    type: 'Live data integrations',
+    type: 'Robot and fleet context',
     items: [
-      ['Stripe', 'https://stripe.com', 'Payments · read-only'],
-      ['Plaid', 'https://plaid.com', 'Banking data · read-only'],
-      ['Gmail', 'https://www.google.com/gmail/about/', 'Email context'],
-      ['GitHub', 'https://github.com', 'Engineering context'],
-      ['Twilio Conversations', 'https://www.twilio.com/conversations', 'Business conversations · read-only'],
-      ['Granola', 'https://www.granola.ai', 'Meeting context · read-only'],
+      ['ROS 2', 'https://www.ros.org/', 'Diagnostics, bags, parameters'],
+      ['Foxglove', 'https://foxglove.dev/', 'Robot telemetry and timelines'],
+      ['Grafana', 'https://grafana.com/', 'Fleet health and observability'],
+      ['Sentry', 'https://sentry.io/', 'Software errors and regressions'],
     ],
   },
   {
-    type: 'Governed action integrations',
+    type: 'Engineering systems',
     items: [
-      ['GitHub', 'https://github.com', 'Approved issue creation'],
-      ['Zendesk', 'https://www.zendesk.com', 'Tickets, internal notes, reply drafts'],
-      ['Jira Cloud', 'https://www.atlassian.com/software/jira', 'Approved issue creation'],
-      ['Gmail', 'https://www.google.com/gmail/about/', 'Approved draft creation and sending'],
+      ['GitHub', 'https://github.com', 'Code, releases, pull requests'],
+      ['Jira Cloud', 'https://www.atlassian.com/software/jira', 'Bugs, incidents, engineering work'],
+      ['Google Drive', 'https://workspace.google.com/products/drive/', 'Specs, test plans, runbooks'],
+      ['Notion', 'https://www.notion.com', 'Decisions and company knowledge'],
     ],
   },
   {
-    type: 'Planned and import-supported sources',
+    type: 'Field and team knowledge',
     items: [
-      ['Slack', 'https://slack.com', 'Communication'],
-      ['Google Drive', 'https://workspace.google.com/products/drive/', 'Documents'],
-      ['Notion', 'https://www.notion.com', 'Knowledge'],
-      ['Google Calendar', 'https://workspace.google.com/products/calendar/', 'Calendar'],
+      ['Slack', 'https://slack.com', 'Team decisions and incident threads'],
+      ['Gmail', 'https://www.google.com/gmail/about/', 'Customer and partner context'],
+      ['Zendesk', 'https://www.zendesk.com', 'Field issues and support history'],
+      ['Granola', 'https://www.granola.ai', 'Design reviews and meeting notes'],
     ],
   },
 ]
@@ -106,25 +103,21 @@ const connectorItems = Array.from(
 )
 
 const connectorLogos = {
-  Stripe: '/connectors/stripe.png',
-  Plaid: '/connectors/plaid.png',
   Gmail: '/connectors/gmail.png',
   GitHub: '/connectors/github.png',
-  'Twilio Conversations': '/connectors/twilio.png',
   Granola: '/connectors/granola.png',
   Zendesk: '/connectors/zendesk.png',
   'Jira Cloud': '/connectors/jira.png',
   Slack: '/connectors/slack.png',
   'Google Drive': '/connectors/drive.png',
   Notion: '/connectors/notion.png',
-  'Google Calendar': '/connectors/calendar.png',
 }
 
 function ConnectorPlaceholder({ name }) {
   const logo = connectorLogos[name]
   return (
     <span className="bx-connector-placeholder">
-      {logo && <img src={logo} alt={`${name} logo`} />}
+      {logo ? <img src={logo} alt={`${name} logo`} /> : <b aria-hidden="true">{name.split(/\s+/).map((word) => word[0]).join('').slice(0, 2)}</b>}
     </span>
   )
 }
@@ -143,10 +136,10 @@ function ConnectorModal({ open, onClose }) {
     <div className="bx-connectors-modal-root" role="presentation" onClick={onClose}>
       <section className="bx-connectors-modal" role="dialog" aria-modal="true" aria-labelledby="connectors-title" onClick={(event) => event.stopPropagation()}>
         <header>
-          <div><span>CONNECTION CATALOG</span><h2 id="connectors-title">Integration surfaces and current availability.</h2></div>
+          <div><span>KNOWLEDGE SOURCE CATALOG</span><h2 id="connectors-title">Bring the whole robotics stack into one memory.</h2></div>
           <button type="button" onClick={onClose} aria-label="Close connector directory">×</button>
         </header>
-        <p className="bx-connectors-lead">Bullyx uses live data connections, narrowly governed action capabilities, and import-supported sources. A provider’s presence never grants general write access.</p>
+        <p className="bx-connectors-lead">Index the systems where robot behavior, engineering decisions, and field experience already live. Start with exports and manual knowledge, then add direct syncs as your deployment grows.</p>
         <div className="bx-connectors-scroll">
           {connectorGroups.map((group) => (
             <section className="bx-connector-group" key={group.type}>
@@ -171,34 +164,34 @@ function ConnectorModal({ open, onClose }) {
 function UseCaseVisual({ index }) {
   if (index === 1) {
     return (
-      <div className="bx-case-mini bx-case-mini-message" aria-label="Customer message awaiting approval">
-        <div className="bx-mini-head"><span>MESSAGE DRAFT</span><b>Awaiting review</b></div>
-        <div className="bx-mini-field"><small>TO</small><strong>Customer on case PAY-2048</strong></div>
-        <div className="bx-mini-field"><small>SUBJECT</small><strong>Delivery evidence requested</strong></div>
+      <div className="bx-case-mini bx-case-mini-message" aria-label="Fleet release readiness brief">
+        <div className="bx-mini-head"><span>RELEASE 2.8.4</span><b>Readiness review</b></div>
+        <div className="bx-mini-field"><small>FLEET</small><strong>Atlas · 42 production robots</strong></div>
+        <div className="bx-mini-field"><small>CHANGE</small><strong>Localization recovery update</strong></div>
         <div className="bx-mini-copy"><i/><i/><i/><i/></div>
-        <div className="bx-mini-actions"><span>Reject</span><b>Approve exact draft</b></div>
+        <div className="bx-mini-actions"><span>2 gaps</span><b>Open cited readiness brief</b></div>
       </div>
     )
   }
 
   if (index === 2) {
     return (
-      <div className="bx-case-mini bx-case-mini-shadow" aria-label="Shadow recommendation comparison">
-        <div className="bx-mini-head"><span>SHADOW COMPARISON</span><b>No authority granted</b></div>
-        <div className="bx-shadow-row"><span>Agent recommendation</span><strong>Request evidence</strong></div>
-        <div className="bx-shadow-row"><span>Human outcome</span><strong>Request evidence</strong></div>
-        <div className="bx-shadow-result"><i>✓</i><div><small>NEXT ACTION</small><b>Agreement recorded</b></div></div>
+      <div className="bx-case-mini bx-case-mini-shadow" aria-label="Field service context pack">
+        <div className="bx-mini-head"><span>SITE VISIT · ATLAS-12</span><b>Context assembled</b></div>
+        <div className="bx-shadow-row"><span>Prior repairs</span><strong>3 linked records</strong></div>
+        <div className="bx-shadow-row"><span>Current runbook</span><strong>Drive calibration v6</strong></div>
+        <div className="bx-shadow-result"><i>✓</i><div><small>TECHNICIAN PACK</small><b>Ready for handoff</b></div></div>
       </div>
     )
   }
 
   return (
-    <div className="bx-case-mini" aria-label="Six hundred dollar dispute case">
-      <div className="bx-mini-head"><span>DISPUTE · $600.00</span><b>4 days remaining</b></div>
-      <div className="bx-mini-evidence"><i>✓</i><span>Payment and dispute data</span><small>Ready</small></div>
-      <div className="bx-mini-evidence"><i>✓</i><span>Customer conversation</span><small>Ready</small></div>
-      <div className="bx-mini-evidence missing"><i>!</i><span>Proof of delivery</span><small>Missing</small></div>
-      <div className="bx-mini-proposal"><small>AGENT PROPOSAL</small><strong>Request delivery evidence</strong><span>Human review required</span></div>
+    <div className="bx-case-mini" aria-label="Localization incident investigation">
+      <div className="bx-mini-head"><span>INCIDENT · ATLAS-07</span><b>Reliability review</b></div>
+      <div className="bx-mini-evidence"><i>✓</i><span>ROS diagnostic window</span><small>Linked</small></div>
+      <div className="bx-mini-evidence"><i>✓</i><span>Release 2.8.3 changes</span><small>Linked</small></div>
+      <div className="bx-mini-evidence missing"><i>!</i><span>Customer site map</span><small>Missing</small></div>
+      <div className="bx-mini-proposal"><small>GROUNDED HYPOTHESIS</small><strong>Map-frame reset after recovery</strong><span>4 cited sources</span></div>
     </div>
   )
 }
@@ -219,10 +212,10 @@ export default function MarketingSite() {
     <div className="bx-site">
       <header className="bx-nav">
         <a className="bx-logo" href="#top" aria-label="Bullyx home" onClick={closeMenu}>
-          <img src="/bullyx-logo-light.png" alt="Bullyx" width="140" height="105" />
+          <img src="/bullyx-logo-engineering.png" alt="Bullyx" width="180" height="103" />
         </a>
         <nav className={menu ? 'open' : ''} aria-label="Main navigation">
-          <a href="#product" onClick={closeMenu}>Overview</a>
+          <a href="#product" onClick={closeMenu}>Company brain</a>
           <a href="#how-it-works" onClick={closeMenu}>How it works</a>
           <a href="#use-cases" onClick={closeMenu}>Use cases</a>
         </nav>
@@ -236,42 +229,42 @@ export default function MarketingSite() {
       <main id="top">
         <section className="bx-hero">
           <div className="bx-hero-copy">
-            <div className="bx-eyebrow"><span /> Built for fintech payment operations</div>
-            <h1>Let AI agents help with payment operations—<em>without giving up control.</em></h1>
-            <p>Bullyx gives every agent a controlled identity, applies your approved policies, routes sensitive actions to people, and records what happened.</p>
+            <div className="bx-eyebrow"><span /> The company brain for robotics teams</div>
+            <h1>Your robots generate answers.<br/><em>Bullyx helps your company find them.</em></h1>
+            <p>Connect engineering knowledge, robot data, and field experience in one source-linked memory. Ask what happened, why it happened, and what the team should do next.</p>
             <div className="bx-actions">
               <button className="bx-primary" type="button" onClick={openWaitlist}>Join waitlist <Arrow /></button>
               <button className="bx-secondary" type="button" onClick={openDemo}>Request a demo</button>
               <a className="bx-secondary" href="#how-it-works">See how it works <span aria-hidden="true">↓</span></a>
             </div>
-            <p className="bx-roles">For payment operations, risk, compliance, and engineering teams introducing agents.</p>
+            <p className="bx-roles">For autonomy, hardware, reliability, robot operations, field service, and customer teams.</p>
           </div>
 
           <div className="bx-hero-product">
-            <div className="bx-product-shot" aria-label="Payment dispute awaiting human approval">
-              <div className="bx-shot-bar"><span>PAYMENT CASE</span><div><i /> Awaiting approval</div></div>
+            <div className="bx-product-shot" aria-label="Robot incident investigation grounded in company sources">
+              <div className="bx-shot-bar"><span>FLEET INTELLIGENCE</span><div><i /> 5 sources connected</div></div>
               <div className="bx-case-head">
-                <div><small>DISPUTE · PAY-DEMO-0001</small><h2>Order not received</h2><p>Response due Jul 22 · 4 days</p></div>
-                <strong>$600.00 <small>USD</small></strong>
+                <div><small>INCIDENT · RBX-214 · ATLAS-07</small><h2>Intermittent localization drift</h2><p>First observed 09:42 · customer site B</p></div>
+                <strong>P1 <small>FLEET RISK</small></strong>
               </div>
               <div className="bx-case-grid">
                 <div className="bx-case-main">
-                  <div className="bx-panel-title">Evidence</div>
-                  <div className="bx-evidence ok"><b>✓</b><span>Customer conversation<small>Imported from support</small></span><em>Ready</em></div>
-                  <div className="bx-evidence ok"><b>✓</b><span>Payment and dispute<small>Stripe · read-only</small></span><em>Ready</em></div>
-                  <div className="bx-evidence missing"><b>!</b><span>Proof of delivery<small>Required by policy</small></span><em>Missing</em></div>
-                  <div className="bx-policy-note"><span>Applicable policy</span><strong>Dispute evidence review · v3</strong><small>Approved by Risk Operations</small></div>
+                  <div className="bx-panel-title">Investigation evidence</div>
+                  <div className="bx-evidence ok"><b>✓</b><span>ROS diagnostic window<small>Foxglove · 09:38–09:47</small></span><em>Linked</em></div>
+                  <div className="bx-evidence ok"><b>✓</b><span>Release and code changes<small>GitHub · v2.8.3</small></span><em>Linked</em></div>
+                  <div className="bx-evidence missing"><b>!</b><span>Customer site map<small>Needed to validate hypothesis</small></span><em>Missing</em></div>
+                  <div className="bx-policy-note"><span>Relevant runbook</span><strong>Localization incident response · v4</strong><small>Updated by Robot Reliability</small></div>
                 </div>
                 <div className="bx-proposal">
-                  <div className="bx-panel-title">Agent proposal</div>
-                  <span className="bx-agent">Agent · disputes-triage-01</span>
-                  <h3>Request delivery evidence</h3>
-                  <p>Draft a message asking the customer for proof of delivery before the response deadline.</p>
-                  <dl><div><dt>Impact</dt><dd>Customer-visible</dd></div><div><dt>Reviewer</dt><dd>Payment Ops</dd></div></dl>
-                  <button type="button" onClick={openDemo}>Review exact message <span>→</span></button>
+                  <div className="bx-panel-title">Grounded answer</div>
+                  <span className="bx-agent">Bullyx Brain · 5 cited sources</span>
+                  <h3>Recovery is resetting the map frame.</h3>
+                  <p>The pattern begins after relocalization and matches a regression previously seen on Atlas-03.</p>
+                  <dl><div><dt>Confidence</dt><dd>Evidence-backed</dd></div><div><dt>Owner</dt><dd>Autonomy</dd></div></dl>
+                  <button type="button" onClick={openDemo}>Inspect answer + sources <span>→</span></button>
                 </div>
               </div>
-              <div className="bx-shot-foot"><span>API <b>Agent proposes</b></span><span>Dashboard <b>Human decides</b></span></div>
+              <div className="bx-shot-foot"><span>Sources <b>Stay linked</b></span><span>Assignments <b>Keep an owner</b></span></div>
             </div>
             <div className="bx-connector-rail" aria-label="Connector preview">
               <div className="bx-connector-window">
@@ -293,43 +286,43 @@ export default function MarketingSite() {
           <Reveal className="bx-overview-grid">
             <article>
               <span className="bx-kicker">WHAT’S THE PROBLEM?</span>
-              <h2>Payment work is spread across too many systems.</h2>
-              <p>Payment teams investigate disputes, refunds, and customer issues across <strong>payment processors, support systems, email, documents, communication tools, fraud systems, and internal dashboards</strong>. As companies introduce AI agents into this work, they need a dependable means of <strong>limiting what each agent may access</strong>, establishing which approved procedures govern its recommendations, determining when a person must review a proposal, and preventing unsupported actions from reaching customers or providers.</p>
-              <div className="bx-fragmented-visual" aria-label="A payment case spread across company systems">
-                <div className="bx-fragmented-case"><small>PAYMENT CASE</small><strong>Order not received</strong><span>$600 dispute</span></div>
+              <h2>Your most important knowledge is trapped in the work.</h2>
+              <p>Robot companies debug real-world systems across <strong>telemetry, source code, test infrastructure, support tickets, field notes, design documents, and conversations</strong>. The full story rarely lives in one place. Engineers lose hours reconstructing context, field teams repeat old investigations, and hard-won operational knowledge leaves when people do.</p>
+              <div className="bx-fragmented-visual" aria-label="A robot incident spread across company systems">
+                <div className="bx-fragmented-case"><small>ROBOT INCIDENT</small><strong>Localization drift</strong><span>Atlas-07 · Site B</span></div>
                 <div className="bx-fragmented-systems">
                   {[
-                    ['Payments', ['Stripe', 'Plaid']],
-                    ['Support', ['Zendesk']],
-                    ['Email', ['Gmail']],
-                    ['Documents', ['Google Drive', 'Notion']],
-                    ['Fraud tools', ['Plaid']],
-                    ['Internal data', ['GitHub', 'Granola']],
+                    ['Robot telemetry', ['Foxglove']],
+                    ['Code & releases', ['GitHub']],
+                    ['Test runs', ['Grafana']],
+                    ['Field issues', ['Zendesk']],
+                    ['Design docs', ['Google Drive', 'Notion']],
+                    ['Team decisions', ['Slack', 'Granola']],
                   ].map(([system, logos], index) => (
                     <span key={system}>
                       <i>{String(index + 1).padStart(2, '0')}</i>
                       <b>{system}</b>
                       <span className="bx-fragmented-logos">
-                        {logos.map((name) => <img key={name} src={system === 'Support' && name === 'Zendesk' ? '/connectors/zendesk-box.png' : connectorLogos[name]} alt={`${name} logo`} />)}
+                        {logos.map((name) => connectorLogos[name] ? <img key={name} src={connectorLogos[name]} alt={`${name} logo`} /> : <b key={name}>{name.slice(0, 2).toUpperCase()}</b>)}
                       </span>
                     </span>
                   ))}
                 </div>
-                <p><span>6 systems</span><span>1 decision</span><span>No shared control</span></p>
+                <p><span>6 systems</span><span>1 failure</span><span>No shared memory</span></p>
               </div>
             </article>
             <article>
               <span className="bx-kicker">OUR SOLUTION</span>
-              <h2>A control layer between proposal and action.</h2>
-              <p>Bullyx connects permitted operational information, organizes payment cases and evidence, and gives each external agent a <strong>stable identity with narrowly scoped API access</strong>. Proposed actions are evaluated against <strong>structured policies that authorized people have approved</strong>. Sensitive proposals are routed to designated reviewers, <strong>only explicitly implemented capabilities may execute</strong>, and the complete sequence of evidence, policy decisions, approvals, execution attempts, and provider results is preserved in a tamper-evident history.</p>
-              <div className="bx-control-visual" aria-label="Bullyx control flow from agent proposal to governed execution">
-                <div className="bx-control-node"><small>EXTERNAL AGENT</small><strong>Proposes an action</strong><span>Scoped API identity</span></div>
+              <h2>A source-linked memory built for the physical world.</h2>
+              <p>Bullyx turns scattered engineering and operations data into a <strong>living company brain</strong>. It retrieves only the information each teammate is allowed to see, cites the evidence behind every answer, and makes uncertainty visible. A useful answer can become a <strong>scoped investigation or field task</strong> without losing the sources, assumptions, or human owner.</p>
+              <div className="bx-control-visual" aria-label="Bullyx flow from robotics sources to grounded work">
+                <div className="bx-control-node"><small>ROBOTICS SOURCES</small><strong>Logs, code, docs, field history</strong><span>Permission-aware sync</span></div>
                 <i className="bx-control-arrow">↓</i>
-                <div className="bx-control-node primary"><small>BULLYX</small><strong>Checks access + policy</strong><span>Fails closed on ambiguity</span></div>
-                <div className="bx-control-branch"><span>Policy requires review</span><i>→</i></div>
-                <div className="bx-control-node review"><small>HUMAN REVIEWER</small><strong>Approves the exact proposal</strong><span>Approval ≠ execution</span></div>
+                <div className="bx-control-node primary"><small>BULLYX COMPANY BRAIN</small><strong>Retrieves + connects evidence</strong><span>Unknowns stay explicit</span></div>
+                <div className="bx-control-branch"><span>Every claim stays traceable</span><i>→</i></div>
+                <div className="bx-control-node review"><small>TEAM ANSWER</small><strong>Facts, hypotheses, next checks</strong><span>Cited to source records</span></div>
                 <i className="bx-control-arrow">↓</i>
-                <div className="bx-control-node final"><small>SUPPORTED CAPABILITY</small><strong>Execute + record</strong><span>Provider result preserved</span></div>
+                <div className="bx-control-node final"><small>GROUNDED WORK</small><strong>Assign + learn</strong><span>Owner and outcome preserved</span></div>
               </div>
             </article>
             <article className="bx-usecase-slider" id="use-cases">
@@ -351,9 +344,9 @@ export default function MarketingSite() {
 
         <section className="bx-workflow" id="how-it-works">
           <Reveal className="bx-section-intro light">
-            <span className="bx-kicker">HOW BULLYX WORKS</span>
-            <h2>Agents use the API.<br/>People use the dashboard.</h2>
-            <p>Bullyx sits between an agent’s proposal and a customer-impacting operation. It brings the context together, checks authority, and keeps people in the decision path.</p>
+            <span className="bx-kicker">HOW THE BRAIN WORKS</span>
+            <h2>One memory for<br/>every robot team.</h2>
+            <p>Bullyx sits across the robotics stack, connecting what the robot did with what the company knew, decided, and tried next.</p>
           </Reveal>
           <Reveal className="bx-workflow-layout">
             <div className="bx-step-list">
@@ -361,7 +354,7 @@ export default function MarketingSite() {
             </div>
             <div className="bx-step-stage">
               <span className="bx-stage-number">{steps[activeStep][0]}</span>
-              <div><small>BULLYX CONTROL FLOW</small><h3>{steps[activeStep][1]}</h3><p>{steps[activeStep][2]}</p></div>
+              <div><small>ROBOTICS KNOWLEDGE LOOP</small><h3>{steps[activeStep][1]}</h3><p>{steps[activeStep][2]}</p></div>
               <div className="bx-stage-track"><span style={{ width: `${(activeStep + 1) * 20}%` }} /></div>
             </div>
           </Reveal>
@@ -369,29 +362,29 @@ export default function MarketingSite() {
 
         {showExtendedSections && <section className="bx-use-case" id="use-case">
           <Reveal className="bx-use-copy">
-            <span className="bx-kicker">A REALISTIC PAYMENT WORKFLOW</span>
-            <h2>A customer disputes a $600 payment.</h2>
-            <p>They say the order never arrived. Before anyone responds, Bullyx assembles the case and makes the gaps visible.</p>
+            <span className="bx-kicker">A REALISTIC ROBOTICS WORKFLOW</span>
+            <h2>Atlas-07 starts drifting at one customer site.</h2>
+            <p>Before an engineer opens another blank incident doc, Bullyx assembles the robot context and makes the evidence gaps visible.</p>
             <div className="bx-case-facts">
-              {['Payment and dispute data', 'Response deadline', 'Customer conversations', 'Order and delivery evidence', 'Applicable policy version', 'Missing evidence', 'Agent’s proposed next action', 'Required human reviewer'].map(item => <span key={item}>{item}</span>)}
+              {['Robot and site configuration', 'ROS diagnostic window', 'Recent software changes', 'Comparable past incidents', 'Current recovery runbook', 'Missing environment data', 'Grounded test hypothesis', 'Named engineering owner'].map(item => <span key={item}>{item}</span>)}
             </div>
           </Reveal>
           <Reveal className="bx-review-flow">
-            <div className="bx-review-head"><span>PROPOSAL REVIEW</span><b>Exact action · exact evidence</b></div>
-            <div className="bx-review-row"><span>01</span><div><small>REQUESTED BY</small><strong>disputes-triage-01</strong></div><em>Scoped agent</em></div>
-            <div className="bx-review-row"><span>02</span><div><small>PROPOSED ACTION</small><strong>Request delivery evidence</strong></div><em>Customer-visible</em></div>
-            <div className="bx-review-row"><span>03</span><div><small>AUTHORITY</small><strong>Dispute evidence policy · v3</strong></div><em>Human approved</em></div>
-            <div className="bx-review-row"><span>04</span><div><small>REQUIRED REVIEWER</small><strong>Payment Operations</strong></div><em>Cannot self-approve</em></div>
-            <div className="bx-review-actions"><button type="button">Reject</button><button type="button" className="approve">Approve exact proposal</button></div>
-            <p>The history preserves the evidence, policy version, agent, reviewer, execution attempt, and provider result.</p>
+            <div className="bx-review-head"><span>GROUNDED INVESTIGATION</span><b>Known facts · explicit unknowns</b></div>
+            <div className="bx-review-row"><span>01</span><div><small>AFFECTED ASSET</small><strong>Atlas-07 · customer site B</strong></div><em>Production robot</em></div>
+            <div className="bx-review-row"><span>02</span><div><small>OBSERVED PATTERN</small><strong>Map-frame reset after recovery</strong></div><em>3 cited logs</em></div>
+            <div className="bx-review-row"><span>03</span><div><small>COMPARABLE INCIDENT</small><strong>RBX-173 · Atlas-03</strong></div><em>Same release family</em></div>
+            <div className="bx-review-row"><span>04</span><div><small>NEXT SAFE CHECK</small><strong>Replay recovery with site map</strong></div><em>Autonomy owner</em></div>
+            <div className="bx-review-actions"><button type="button">Open sources</button><button type="button" className="approve">Assign investigation</button></div>
+            <p>The record preserves the question, evidence, hypotheses, missing context, owner, and eventual outcome.</p>
           </Reveal>
         </section>}
 
         {showExtendedSections && <section className="bx-capabilities">
           <Reveal className="bx-section-intro">
             <span className="bx-kicker">PRODUCT CAPABILITIES</span>
-            <h2>One control layer for the work around the payment.</h2>
-            <p>Cases, policies, agents, approvals, connections, and audit evidence stay linked—without turning a model recommendation into authority.</p>
+            <h2>One brain across the full robotics lifecycle.</h2>
+            <p>Incidents, releases, tests, robot configurations, field history, and team decisions stay connected from the lab to every customer site.</p>
           </Reveal>
           <Reveal className="bx-capability-list">
             {capabilities.map(([title, body], i) => <article key={title}><span>0{i + 1}</span><h3>{title}</h3><p>{body}</p></article>)}
@@ -400,9 +393,9 @@ export default function MarketingSite() {
 
         {showExtendedSections && <section className="bx-security" id="security">
           <Reveal className="bx-security-copy">
-            <span className="bx-kicker">CONTROL BY DESIGN</span>
-            <h2>Permission is explicit.<br/>Ambiguity stops the action.</h2>
-            <p>Bullyx separates information access, policy evaluation, human approval, and execution. A connection—or a convincing model response—cannot skip those boundaries.</p>
+            <span className="bx-kicker">TRUST BY DESIGN</span>
+            <h2>Evidence is explicit.<br/>Uncertainty stays visible.</h2>
+            <p>Robotics lives in the physical world, where a plausible answer is not enough. Bullyx keeps sources, unknowns, ownership, and safe next checks in the interface.</p>
           </Reveal>
           <Reveal className="bx-principles">
             {principles.map((item, i) => <div key={item}><span>{String(i + 1).padStart(2, '0')}</span><p>{item}</p></div>)}
@@ -412,20 +405,20 @@ export default function MarketingSite() {
         {showExtendedSections && <section className="bx-scope">
           <Reveal className="bx-scope-copy">
             <span className="bx-kicker">CURRENT PRODUCT SCOPE</span>
-            <h2>Built for controlled pilots, not hands-off automation.</h2>
-            <p>Bullyx currently focuses on governed payment-operations workflows and low-risk actions. The product includes payment-case ingestion, policy review, approval routing, agent identities, permission controls, customer-message drafts, governed internal actions, and audit history.</p>
+            <h2>Start with memory. Expand into trusted workflows.</h2>
+            <p>The first deployment focuses on indexing company knowledge, asking cited questions, and assigning grounded follow-up work. Direct robot control and unsupervised production changes remain outside the product boundary.</p>
           </Reveal>
           <Reveal className="bx-scope-grid">
-            <div><span>AVAILABLE IN TODAY’S PRODUCT</span><ul><li>Stripe read-only payment-case ingestion</li><li>Payment case and evidence workspace</li><li>Reviewed, versioned company policies</li><li>Scoped agent identities and credentials</li><li>Human approval routing and audit history</li><li>Governed internal actions and message drafts</li></ul></div>
-            <div className="caution"><span>IMPORTANT BOUNDARIES</span><ul><li>Payment-provider writes remain gated</li><li>Customer-visible messages require approval</li><li>Adding a connector does not grant write access</li><li>Bullyx does not automatically resolve disputes</li><li>Current deployments are controlled pilots</li></ul></div>
+            <div><span>FOUNDATION AVAILABLE NOW</span><ul><li>Organization-isolated knowledge index</li><li>Manual ingestion for logs, reports, and runbooks</li><li>Cited Ask conversations and source viewer</li><li>Answer feedback and correction signals</li><li>Grounded agent assignments with evidence</li><li>Connector-ready robotics source catalog</li></ul></div>
+            <div className="caution"><span>IMPORTANT BOUNDARIES</span><ul><li>No direct robot actuation from an answer</li><li>No claim is accepted without accessible evidence</li><li>Adding a source does not grant write access</li><li>Humans own production and field decisions</li><li>Direct connectors require deployment setup</li></ul></div>
           </Reveal>
         </section>}
 
         <section className="bx-final">
           <Reveal>
             <span className="bx-kicker">JOIN THE WAITLIST</span>
-            <h2>Introduce AI agents without losing operational control.</h2>
-            <p>We’re working with fintech and payment-operations teams that want to test governed agent workflows on real cases. Join the waitlist for early access, or request a pilot conversation.</p>
+            <h2>Stop rebuilding context from scratch.</h2>
+            <p>We’re working with robotics teams that want faster investigations, safer releases, stronger field handoffs, and a company memory that compounds with every deployment.</p>
             <div className="bx-actions">
               <button type="button" onClick={openWaitlist}>Join waitlist <Arrow /></button>
               <button className="bx-final-secondary" type="button" onClick={openDemo}>Request a pilot</button>
@@ -436,8 +429,8 @@ export default function MarketingSite() {
       </main>
 
       <footer>
-        <a className="bx-logo" href="#top" aria-label="Bullyx home"><img src="/bullyx-logo-light.png" alt="Bullyx" width="120" height="90" /></a>
-        <p>Governed agent workflows for fintech payment operations.</p>
+        <a className="bx-logo" href="#top" aria-label="Bullyx home"><img src="/bullyx-logo-engineering.png" alt="Bullyx" width="160" height="92" /></a>
+        <p>The source-linked company brain for robotics teams.</p>
         <span>© 2026 BULLYX, INC.</span>
       </footer>
       <DemoRequestModal open={Boolean(leadIntent)} intent={leadIntent || 'demo'} onClose={() => setLeadIntent(null)} />
